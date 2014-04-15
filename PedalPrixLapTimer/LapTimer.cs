@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define ECHOCODE echo;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

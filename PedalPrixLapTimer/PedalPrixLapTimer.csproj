@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArduinoSerial.cs" />
     <Compile Include="LapTimer.cs">
       <SubType>Form</SubType>
     </Compile>

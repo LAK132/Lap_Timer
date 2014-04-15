@@ -135,9 +135,9 @@
             // 
             // listView1
             // 
-            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.Cursor = System.Windows.Forms.Cursors.Cross;
             this.listView1.Location = new System.Drawing.Point(949, 96);
             this.listView1.Name = "listView1";
@@ -267,8 +267,8 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Window;
             this.richTextBox1.Cursor = System.Windows.Forms.Cursors.Cross;
             this.richTextBox1.Location = new System.Drawing.Point(309, 122);
@@ -288,7 +288,7 @@
             // 
             // buttonPitOut
             // 
-            this.buttonPitOut.Font = new System.Drawing.Font("Swis721 BlkEx BT", 19F, System.Drawing.FontStyle.Italic);
+            this.buttonPitOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 19F, System.Drawing.FontStyle.Italic);
             this.buttonPitOut.Location = new System.Drawing.Point(3, 219);
             this.buttonPitOut.Name = "buttonPitOut";
             this.buttonPitOut.Size = new System.Drawing.Size(300, 40);
@@ -299,7 +299,7 @@
             // 
             // buttonPitIn
             // 
-            this.buttonPitIn.Font = new System.Drawing.Font("Swis721 BlkEx BT", 20F, System.Drawing.FontStyle.Italic);
+            this.buttonPitIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Italic);
             this.buttonPitIn.Location = new System.Drawing.Point(3, 173);
             this.buttonPitIn.Name = "buttonPitIn";
             this.buttonPitIn.Size = new System.Drawing.Size(300, 40);
@@ -332,7 +332,7 @@
             // 
             // buttonLap
             // 
-            this.buttonLap.Font = new System.Drawing.Font("Swis721 BlkEx BT", 48F, System.Drawing.FontStyle.Italic);
+            this.buttonLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Italic);
             this.buttonLap.Location = new System.Drawing.Point(3, 67);
             this.buttonLap.Name = "buttonLap";
             this.buttonLap.Size = new System.Drawing.Size(300, 100);
@@ -365,7 +365,7 @@
             // 
             // button_Start
             // 
-            this.button_Start.Font = new System.Drawing.Font("Swis721 BlkEx BT", 20F, System.Drawing.FontStyle.Italic);
+            this.button_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Italic);
             this.button_Start.Location = new System.Drawing.Point(3, 6);
             this.button_Start.Name = "button_Start";
             this.button_Start.Size = new System.Drawing.Size(300, 55);
@@ -416,7 +416,7 @@
             // 
             // buttonSignIn
             // 
-            this.buttonSignIn.Font = new System.Drawing.Font("Swis721 BlkEx BT", 20F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSignIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSignIn.Location = new System.Drawing.Point(12, 83);
             this.buttonSignIn.Name = "buttonSignIn";
             this.buttonSignIn.Size = new System.Drawing.Size(400, 49);
@@ -427,9 +427,9 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPageSignIn);
             this.tabControl1.Controls.Add(this.tabPageTimer);
             this.tabControl1.Controls.Add(this.tabPageBrowser);
@@ -454,8 +454,8 @@
             // 
             // textBoxInternet
             // 
-            this.textBoxInternet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxInternet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxInternet.Location = new System.Drawing.Point(47, 7);
             this.textBoxInternet.Name = "textBoxInternet";
             this.textBoxInternet.Size = new System.Drawing.Size(1289, 20);
@@ -473,9 +473,9 @@
             // 
             // webBrowser1
             // 
-            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowser1.Location = new System.Drawing.Point(0, 33);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
