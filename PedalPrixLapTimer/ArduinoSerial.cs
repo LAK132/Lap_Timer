@@ -14,6 +14,15 @@ namespace PedalPrixLapTimer
         private static bool isSetUp = false; //Whether or not the connection has been set up yet
         private static SerialPort serialPort = new SerialPort(); //The serial port object to use
 
+        private static ArgumentException err1 = new ArgumentException("Failed to open and send message over serial port");
+        private static ArgumentException err2 = new ArgumentException("Already set up");
+        private static ArgumentException err3 = new ArgumentException("Wrong echo code recieved");
+        private static ArgumentException err4 = new ArgumentException("Failed to send message");
+        private static ArgumentException err5 = new ArgumentException("Not set up");
+        private static ArgumentException err6 = new ArgumentException("Serial read timeout");
+        private static ArgumentException err7 = new ArgumentException("Failed to send and/or receive");
+
+        //Set up the serial connection
         public static bool setup(string portIn, int baudIn, string echoIn)
         {
             echo = echoIn;
@@ -29,47 +38,80 @@ namespace PedalPrixLapTimer
                 {
                     serialPort.Close();
                 }
-                
-                serialPort.WriteLine(echo);
 
-                if (serialPort.ReadLine() == echo)
+                try
                 {
-                    isSetUp = true;
-                    return true;
+                    serialPort.Open();
+                    serialPort.WriteLine(echo);
                 }
-                else
+                catch
                 {
-                    isSetUp = false;
-                    return false;
+                    throw err1;
+                }
+
+                try
+                {
+                    if (serialPort.ReadLine() == echo)
+                    {
+                        isSetUp = true;
+                        return true;
+                    }
+                    else
+                    {
+                        isSetUp = false;
+                        throw err3;
+                    }
+                }
+                catch
+                {
+                    throw err6;
                 }
             }
             else
             {
-                return true;
+                throw err2;
             }
         }
 
+        //Send a message to the arduino
         public static bool sendMsg(string message)
-        {
+        { 
             if(isSetUp)
             {
-                return true;
+                try
+                {
+                    serialPort.WriteLine(message);
+                    return true;
+                }
+                catch
+                {
+                    throw err4;
+                }
             }
             else
             {
-                return false;
+                throw err5;
             }
         }
 
+        //Send and receive from arduino
         public static string askMsg(string message)
         {
             if (isSetUp)
             {
-                return "";
+                try
+                {
+                    serialPort.WriteLine(message);
+                    return serialPort.ReadLine();
+                }
+                catch
+                {
+                    throw err7;
+                }
             }
             else
             {
-                return "";
+                throw err5;
             }
         }
 
