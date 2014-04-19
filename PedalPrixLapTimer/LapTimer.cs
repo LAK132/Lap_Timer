@@ -14,7 +14,7 @@ using System.Diagnostics;
 namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
-     {
+    {
 
         Stopwatch swRace = new Stopwatch();     // Used to time total race time
         Stopwatch swLap = new Stopwatch();      // Used to time each lap
