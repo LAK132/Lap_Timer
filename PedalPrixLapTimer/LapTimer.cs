@@ -1,6 +1,4 @@
-﻿#define ECHOCODE echo;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,14 +6,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-//using System.Windows.Forms.ListView.ListViewItemCollection;
 using System.Diagnostics;
+using PedalPrixLapTimer;
 
 namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-
+        ArduinoSerial car1 = new ArduinoSerial();
+        //ArduinoSerial car2 = new ArduinoSerial();
+        //ArduinoSerial car3 = new ArduinoSerial();
         Stopwatch swRace = new Stopwatch();     // Used to time total race time
         Stopwatch swLap = new Stopwatch();      // Used to time each lap
         TimeSpan lapTime;
@@ -45,7 +45,9 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            car1.HasTriggered += car1_Lapped;
+            //car2.HasTriggered += car2_Lapped;
+            //car3.HasTriggered += car3_Lapped;
         }
 
         private void button_Start_Click(object sender, EventArgs e)
@@ -303,5 +305,35 @@ namespace WindowsFormsApplication1
                 return;
             }
         }
+
+        //Arduino code
+        private void car1_Lapped(object sender, EventArgs e)
+        {
+            buttonLap_Click(this, EventArgs.Empty);
+        }
+
+        private void serialConnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                car1.setup(this, "COM1", 9600, "echo", "trigger");
+            }
+            catch
+            {
+
+            }
+        }
+
+        /*
+        private void car2_Lapped(object sender, EventArgs e)
+        {
+
+        }
+
+        private void car3_Lapped(object sender, EventArgs e)
+        {
+
+        }
+        */
     }
 }

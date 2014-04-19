@@ -63,15 +63,18 @@
             this.textBoxRiderName = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.buttonSignIn = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabSerial = new System.Windows.Forms.TabControl();
             this.tabPageBrowser = new System.Windows.Forms.TabPage();
             this.textBoxInternet = new System.Windows.Forms.TextBox();
             this.buttonGo = new System.Windows.Forms.Button();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.tabPageSerial = new System.Windows.Forms.TabPage();
+            this.serialConnect = new System.Windows.Forms.Button();
             this.tabPageTimer.SuspendLayout();
             this.tabPageSignIn.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tabSerial.SuspendLayout();
             this.tabPageBrowser.SuspendLayout();
+            this.tabPageSerial.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -425,19 +428,20 @@
             this.buttonSignIn.UseVisualStyleBackColor = true;
             this.buttonSignIn.Click += new System.EventHandler(this.buttonSignIn_Click);
             // 
-            // tabControl1
+            // tabSerial
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabSerial.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPageSignIn);
-            this.tabControl1.Controls.Add(this.tabPageTimer);
-            this.tabControl1.Controls.Add(this.tabPageBrowser);
-            this.tabControl1.Location = new System.Drawing.Point(12, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1350, 608);
-            this.tabControl1.TabIndex = 83;
+            this.tabSerial.Controls.Add(this.tabPageSignIn);
+            this.tabSerial.Controls.Add(this.tabPageTimer);
+            this.tabSerial.Controls.Add(this.tabPageBrowser);
+            this.tabSerial.Controls.Add(this.tabPageSerial);
+            this.tabSerial.Location = new System.Drawing.Point(12, 0);
+            this.tabSerial.Name = "tabSerial";
+            this.tabSerial.SelectedIndex = 0;
+            this.tabSerial.Size = new System.Drawing.Size(1350, 608);
+            this.tabSerial.TabIndex = 83;
             // 
             // tabPageBrowser
             // 
@@ -483,12 +487,33 @@
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.Url = new System.Uri("http://www.google.com.au", System.UriKind.Absolute);
             // 
+            // tabPageSerial
+            // 
+            this.tabPageSerial.Controls.Add(this.serialConnect);
+            this.tabPageSerial.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSerial.Name = "tabPageSerial";
+            this.tabPageSerial.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSerial.Size = new System.Drawing.Size(1342, 582);
+            this.tabPageSerial.TabIndex = 3;
+            this.tabPageSerial.Text = "Serial Settings";
+            this.tabPageSerial.UseVisualStyleBackColor = true;
+            // 
+            // serialConnect
+            // 
+            this.serialConnect.Location = new System.Drawing.Point(6, 6);
+            this.serialConnect.Name = "serialConnect";
+            this.serialConnect.Size = new System.Drawing.Size(75, 23);
+            this.serialConnect.TabIndex = 0;
+            this.serialConnect.Text = "Connect";
+            this.serialConnect.UseVisualStyleBackColor = true;
+            this.serialConnect.Click += new System.EventHandler(this.serialConnect_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1374, 620);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabSerial);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -496,9 +521,10 @@
             this.tabPageTimer.PerformLayout();
             this.tabPageSignIn.ResumeLayout(false);
             this.tabPageSignIn.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
+            this.tabSerial.ResumeLayout(false);
             this.tabPageBrowser.ResumeLayout(false);
             this.tabPageBrowser.PerformLayout();
+            this.tabPageSerial.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -539,10 +565,12 @@
         private System.Windows.Forms.TextBox textBoxRiderName;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button buttonSignIn;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabSerial;
         private System.Windows.Forms.TabPage tabPageBrowser;
         private System.Windows.Forms.TextBox textBoxInternet;
         private System.Windows.Forms.Button buttonGo;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.TabPage tabPageSerial;
+        private System.Windows.Forms.Button serialConnect;
     }
 }

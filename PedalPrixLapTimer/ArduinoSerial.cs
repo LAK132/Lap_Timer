@@ -11,8 +11,10 @@ namespace PedalPrixLapTimer
         private static string port; //Port number to use
         private static int baud; //Baud rate to use
         private static string echo; //The echo code to use
+        private static string trigger; //The trigger code
         private static bool isSetUp = false; //Whether or not the connection has been set up yet
         private static SerialPort serialPort = new SerialPort(); //The serial port object to use
+        private static object sender;
 
         private static ArgumentException err1 = new ArgumentException("Failed to open and send message over serial port");
         private static ArgumentException err2 = new ArgumentException("Already set up");
@@ -21,18 +23,22 @@ namespace PedalPrixLapTimer
         private static ArgumentException err5 = new ArgumentException("Not set up");
         private static ArgumentException err6 = new ArgumentException("Serial read timeout");
         private static ArgumentException err7 = new ArgumentException("Failed to send and/or receive");
+        private static ArgumentException err8 = new ArgumentException("Failed to read serial");
 
         //Set up the serial connection
-        public static bool setup(string portIn, int baudIn, string echoIn)
+        public bool setup(object senderIn, string portIn, int baudIn, string echoIn, string triggerIn)
         {
             echo = echoIn;
             if (!isSetUp)
             {
+                sender = senderIn;
                 port = portIn;
                 baud = baudIn;
                 echo = echoIn;
+                trigger = triggerIn;
                 serialPort.PortName = port;
                 serialPort.BaudRate = baud;
+                serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 
                 if (serialPort.IsOpen)
                 {
@@ -70,6 +76,30 @@ namespace PedalPrixLapTimer
             else
             {
                 throw err2;
+            }
+        }
+
+        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                if(serialPort.ReadLine() == trigger)
+                {
+                    Triggered(EventArgs.Empty);
+                }
+            }
+            catch
+            {
+                throw err8;
+            }
+        }
+
+        protected virtual void Triggered(EventArgs e)
+        {
+            EventHandler handler = HasTriggered;
+            if (handler != null)
+            {
+                handler(this, e);
             }
         }
 
@@ -152,5 +182,8 @@ namespace PedalPrixLapTimer
 
             return intArray;
         }
+
+        //Lapped event
+        public event EventHandler HasTriggered;
     }
 }
