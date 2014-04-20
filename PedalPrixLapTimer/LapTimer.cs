@@ -7,9 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO.Ports;
 using PedalPrixLapTimer;
 
-namespace WindowsFormsApplication1
+namespace PedalPrixLapTimer
 {
     public partial class Form1 : Form
     {
@@ -316,12 +317,41 @@ namespace WindowsFormsApplication1
         {
             try
             {
-                car1.setup(this, "COM1", 9600, "echo", "trigger");
+                if(car1.setup(this, comboBoxComPort.Text, Convert.ToInt16(comboBoxBaudRate.Text), textBoxEchoCode.Text, textBoxTriggerCode.Text))
+                {
+                    MessageBox.Show("Succesfully Connected");
+                }
+            }
+            catch(ArduinoSerialOpenException)
+            {
+                MessageBox.Show("Failed to open serial port");
+            }
+            catch (ArduinoSerialSendException)
+            {
+                MessageBox.Show("Failed to write to serial port");
+            }
+            catch (ArduinoSerialEchoException)
+            {
+                MessageBox.Show("Failed to receive or received incorrect echo code serial port");
+            }
+            catch (ArduinoSerialReadException)
+            {
+                MessageBox.Show("Failed to read from serial port");
+            }
+            catch (ArduinoSerialSetupException)
+            {
+                MessageBox.Show("Already setup/connected");
             }
             catch
             {
-
+                MessageBox.Show("Invalid Parameters");
             }
+        }
+
+        private void comboBoxComPort_DropDown(object sender, EventArgs e)
+        {
+            comboBoxComPort.Items.Clear();
+            comboBoxComPort.Items.AddRange(SerialPort.GetPortNames());
         }
 
         /*

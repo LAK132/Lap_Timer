@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace PedalPrixLapTimer
 {
     partial class Form1
     {
@@ -69,7 +69,15 @@
             this.buttonGo = new System.Windows.Forms.Button();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.tabPageSerial = new System.Windows.Forms.TabPage();
+            this.labelComPort = new System.Windows.Forms.Label();
+            this.comboBoxComPort = new System.Windows.Forms.ComboBox();
             this.serialConnect = new System.Windows.Forms.Button();
+            this.labelEcho = new System.Windows.Forms.Label();
+            this.labelBaud = new System.Windows.Forms.Label();
+            this.textBoxEchoCode = new System.Windows.Forms.TextBox();
+            this.textBoxTriggerCode = new System.Windows.Forms.TextBox();
+            this.labelTrigger = new System.Windows.Forms.Label();
+            this.comboBoxBaudRate = new System.Windows.Forms.ComboBox();
             this.tabPageTimer.SuspendLayout();
             this.tabPageSignIn.SuspendLayout();
             this.tabSerial.SuspendLayout();
@@ -489,6 +497,14 @@
             // 
             // tabPageSerial
             // 
+            this.tabPageSerial.Controls.Add(this.comboBoxBaudRate);
+            this.tabPageSerial.Controls.Add(this.labelTrigger);
+            this.tabPageSerial.Controls.Add(this.textBoxTriggerCode);
+            this.tabPageSerial.Controls.Add(this.textBoxEchoCode);
+            this.tabPageSerial.Controls.Add(this.labelBaud);
+            this.tabPageSerial.Controls.Add(this.labelEcho);
+            this.tabPageSerial.Controls.Add(this.labelComPort);
+            this.tabPageSerial.Controls.Add(this.comboBoxComPort);
             this.tabPageSerial.Controls.Add(this.serialConnect);
             this.tabPageSerial.Location = new System.Drawing.Point(4, 22);
             this.tabPageSerial.Name = "tabPageSerial";
@@ -497,6 +513,24 @@
             this.tabPageSerial.TabIndex = 3;
             this.tabPageSerial.Text = "Serial Settings";
             this.tabPageSerial.UseVisualStyleBackColor = true;
+            // 
+            // labelComPort
+            // 
+            this.labelComPort.AutoSize = true;
+            this.labelComPort.Location = new System.Drawing.Point(27, 75);
+            this.labelComPort.Name = "labelComPort";
+            this.labelComPort.Size = new System.Drawing.Size(50, 13);
+            this.labelComPort.TabIndex = 2;
+            this.labelComPort.Text = "Com Port";
+            // 
+            // comboBoxComPort
+            // 
+            this.comboBoxComPort.FormattingEnabled = true;
+            this.comboBoxComPort.Location = new System.Drawing.Point(101, 72);
+            this.comboBoxComPort.Name = "comboBoxComPort";
+            this.comboBoxComPort.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxComPort.TabIndex = 1;
+            this.comboBoxComPort.DropDown += new System.EventHandler(this.comboBoxComPort_DropDown);
             // 
             // serialConnect
             // 
@@ -507,6 +541,57 @@
             this.serialConnect.Text = "Connect";
             this.serialConnect.UseVisualStyleBackColor = true;
             this.serialConnect.Click += new System.EventHandler(this.serialConnect_Click);
+            // 
+            // labelEcho
+            // 
+            this.labelEcho.AutoSize = true;
+            this.labelEcho.Location = new System.Drawing.Point(27, 128);
+            this.labelEcho.Name = "labelEcho";
+            this.labelEcho.Size = new System.Drawing.Size(60, 13);
+            this.labelEcho.TabIndex = 4;
+            this.labelEcho.Text = "Echo Code";
+            // 
+            // labelBaud
+            // 
+            this.labelBaud.AutoSize = true;
+            this.labelBaud.Location = new System.Drawing.Point(27, 102);
+            this.labelBaud.Name = "labelBaud";
+            this.labelBaud.Size = new System.Drawing.Size(58, 13);
+            this.labelBaud.TabIndex = 6;
+            this.labelBaud.Text = "Baud Rate";
+            // 
+            // textBoxEchoCode
+            // 
+            this.textBoxEchoCode.Location = new System.Drawing.Point(101, 125);
+            this.textBoxEchoCode.Name = "textBoxEchoCode";
+            this.textBoxEchoCode.Size = new System.Drawing.Size(121, 20);
+            this.textBoxEchoCode.TabIndex = 7;
+            // 
+            // textBoxTriggerCode
+            // 
+            this.textBoxTriggerCode.Location = new System.Drawing.Point(101, 151);
+            this.textBoxTriggerCode.Name = "textBoxTriggerCode";
+            this.textBoxTriggerCode.Size = new System.Drawing.Size(121, 20);
+            this.textBoxTriggerCode.TabIndex = 8;
+            // 
+            // labelTrigger
+            // 
+            this.labelTrigger.AutoSize = true;
+            this.labelTrigger.Location = new System.Drawing.Point(27, 154);
+            this.labelTrigger.Name = "labelTrigger";
+            this.labelTrigger.Size = new System.Drawing.Size(68, 13);
+            this.labelTrigger.TabIndex = 9;
+            this.labelTrigger.Text = "Trigger Code";
+            // 
+            // comboBoxBaudRate
+            // 
+            this.comboBoxBaudRate.FormattingEnabled = true;
+            this.comboBoxBaudRate.Items.AddRange(new object[] {
+            "9600"});
+            this.comboBoxBaudRate.Location = new System.Drawing.Point(101, 99);
+            this.comboBoxBaudRate.Name = "comboBoxBaudRate";
+            this.comboBoxBaudRate.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxBaudRate.TabIndex = 10;
             // 
             // Form1
             // 
@@ -525,6 +610,7 @@
             this.tabPageBrowser.ResumeLayout(false);
             this.tabPageBrowser.PerformLayout();
             this.tabPageSerial.ResumeLayout(false);
+            this.tabPageSerial.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -572,5 +658,13 @@
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.TabPage tabPageSerial;
         private System.Windows.Forms.Button serialConnect;
+        private System.Windows.Forms.Label labelComPort;
+        private System.Windows.Forms.ComboBox comboBoxComPort;
+        private System.Windows.Forms.Label labelBaud;
+        private System.Windows.Forms.Label labelEcho;
+        private System.Windows.Forms.Label labelTrigger;
+        private System.Windows.Forms.TextBox textBoxTriggerCode;
+        private System.Windows.Forms.TextBox textBoxEchoCode;
+        private System.Windows.Forms.ComboBox comboBoxBaudRate;
     }
 }
