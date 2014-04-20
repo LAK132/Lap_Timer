@@ -99,36 +99,49 @@ namespace PedalPrixLapTimer
         private static string echo; //The echo code to use
         private static string trigger; //The trigger code
         private static bool isSetUp = false; //Whether or not the connection has been set up yet
-        private static SerialPort serialPort = new SerialPort(); //The serial port object to use
-        private static object sender;
+        public static SerialPort serialPort = new SerialPort(); //The serial port object to use
+        private static int readTimeout = 1000;
+        private static int writeTimeout = 4000;
 
         private static ArduinoSerialOpenException errOpen = new ArduinoSerialOpenException("Failed to open and send message over serial port");
         private static ArduinoSerialSetupException errSetup = new ArduinoSerialSetupException("Already set up");
-        private static ArduinoSerialEchoException erEcho = new ArduinoSerialEchoException("Wrong echo code recieved");
+        private static ArduinoSerialEchoException errEcho = new ArduinoSerialEchoException("Wrong echo code recieved");
         private static ArduinoSerialSendException errSend = new ArduinoSerialSendException("Failed to send message");
         private static ArduinoSerialNotSetupException errNotSetup = new ArduinoSerialNotSetupException("Not set up");
         private static ArduinoSerialReadException errRead = new ArduinoSerialReadException("Failed to read serial");
 
         //Set up the serial connection
-        public bool setup(object senderIn, string portIn, int baudIn, string echoIn, string triggerIn)
+        public bool setup(string portIn, int baudIn, string echoIn, string triggerIn)
         {
-            echo = echoIn;
             if (!isSetUp)
             {
-                sender = senderIn;
                 port = portIn;
                 baud = baudIn;
                 echo = echoIn;
                 trigger = triggerIn;
-                serialPort.PortName = port;
-                serialPort.BaudRate = baud;
-                serialPort.WriteTimeout = 500;
-                serialPort.ReadTimeout = 500;
-                serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                //serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 
                 if (serialPort.IsOpen)
                 {
-                    serialPort.Close();
+                    try
+                    {
+                        serialPort.Close();
+                        serialPort.PortName = port;
+                        serialPort.BaudRate = baud;
+                        serialPort.WriteTimeout = writeTimeout;
+                        serialPort.ReadTimeout = readTimeout;
+                    }
+                    catch
+                    {
+                        throw errOpen;
+                    }
+                }
+                else
+                {
+                    serialPort.PortName = port;
+                    serialPort.BaudRate = baud;
+                    serialPort.WriteTimeout = writeTimeout;
+                    serialPort.ReadTimeout = readTimeout;
                 }
 
                 try
@@ -139,6 +152,7 @@ namespace PedalPrixLapTimer
                 {
                     throw errOpen;
                 }
+
                 try
                 {
                     serialPort.WriteLine(echo);
@@ -147,9 +161,10 @@ namespace PedalPrixLapTimer
                 {
                     throw errSend;
                 }
+
                 try
                 {
-                    if (serialPort.ReadLine() == echo)
+                    if (serialPort.ReadLine() == "echo")
                     {
                         isSetUp = true;
                         return true;
@@ -157,7 +172,7 @@ namespace PedalPrixLapTimer
                     else
                     {
                         isSetUp = false;
-                        throw erEcho;
+                        throw errEcho;
                     }
                 }
                 catch
@@ -172,31 +187,31 @@ namespace PedalPrixLapTimer
         }
 
         //Triggered event
-        public event EventHandler HasTriggered;
+        //public event EventHandler HasTriggered;
 
-        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        /*private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
             try
             {
-                if(serialPort.ReadLine() == trigger)
-                {
-                    Triggered(EventArgs.Empty);
-                }
+                //if(serialPort.ReadLine() == trigger)
+                //{
+                    //Triggered(EventArgs.Empty);
+                //}
             }
             catch
             {
                 throw errRead;
             }
-        }
+        }*/
 
-        protected virtual void Triggered(EventArgs e)
+        /*protected virtual void Triggered(EventArgs e)
         {
             EventHandler handler = HasTriggered;
             if (handler != null)
             {
                 handler(this, e);
             }
-        }
+        }*/
 
         //Send a message to the arduino
         public static bool sendMsg(string message)
@@ -283,6 +298,23 @@ namespace PedalPrixLapTimer
             }
 
             return intArray;
+        }
+
+        //Close the serial port
+        public void disconnect()
+        {
+            try 
+            {
+                if (serialPort.IsOpen)
+                {
+                    serialPort.Close();
+                    isSetUp = false;
+                }
+            }
+            catch
+            {
+                throw errOpen;
+            }
         }
     }
 }

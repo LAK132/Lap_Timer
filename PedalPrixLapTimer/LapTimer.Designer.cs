@@ -78,6 +78,7 @@
             this.textBoxTriggerCode = new System.Windows.Forms.TextBox();
             this.labelTrigger = new System.Windows.Forms.Label();
             this.comboBoxBaudRate = new System.Windows.Forms.ComboBox();
+            this.buttonSerialDisconnect = new System.Windows.Forms.Button();
             this.tabPageTimer.SuspendLayout();
             this.tabPageSignIn.SuspendLayout();
             this.tabSerial.SuspendLayout();
@@ -497,6 +498,7 @@
             // 
             // tabPageSerial
             // 
+            this.tabPageSerial.Controls.Add(this.buttonSerialDisconnect);
             this.tabPageSerial.Controls.Add(this.comboBoxBaudRate);
             this.tabPageSerial.Controls.Add(this.labelTrigger);
             this.tabPageSerial.Controls.Add(this.textBoxTriggerCode);
@@ -530,6 +532,7 @@
             this.comboBoxComPort.Name = "comboBoxComPort";
             this.comboBoxComPort.Size = new System.Drawing.Size(121, 21);
             this.comboBoxComPort.TabIndex = 1;
+            this.comboBoxComPort.Text = "COM3";
             this.comboBoxComPort.DropDown += new System.EventHandler(this.comboBoxComPort_DropDown);
             // 
             // serialConnect
@@ -566,6 +569,7 @@
             this.textBoxEchoCode.Name = "textBoxEchoCode";
             this.textBoxEchoCode.Size = new System.Drawing.Size(121, 20);
             this.textBoxEchoCode.TabIndex = 7;
+            this.textBoxEchoCode.Text = "echo";
             // 
             // textBoxTriggerCode
             // 
@@ -573,6 +577,7 @@
             this.textBoxTriggerCode.Name = "textBoxTriggerCode";
             this.textBoxTriggerCode.Size = new System.Drawing.Size(121, 20);
             this.textBoxTriggerCode.TabIndex = 8;
+            this.textBoxTriggerCode.Text = "trigger";
             // 
             // labelTrigger
             // 
@@ -592,6 +597,17 @@
             this.comboBoxBaudRate.Name = "comboBoxBaudRate";
             this.comboBoxBaudRate.Size = new System.Drawing.Size(121, 21);
             this.comboBoxBaudRate.TabIndex = 10;
+            this.comboBoxBaudRate.Text = "9600";
+            // 
+            // buttonSerialDisconnect
+            // 
+            this.buttonSerialDisconnect.Location = new System.Drawing.Point(87, 6);
+            this.buttonSerialDisconnect.Name = "buttonSerialDisconnect";
+            this.buttonSerialDisconnect.Size = new System.Drawing.Size(75, 23);
+            this.buttonSerialDisconnect.TabIndex = 11;
+            this.buttonSerialDisconnect.Text = "Disconnect";
+            this.buttonSerialDisconnect.UseVisualStyleBackColor = true;
+            this.buttonSerialDisconnect.Click += new System.EventHandler(this.buttonSerialDisconnect_Click);
             // 
             // Form1
             // 
@@ -666,5 +682,6 @@
         private System.Windows.Forms.TextBox textBoxTriggerCode;
         private System.Windows.Forms.TextBox textBoxEchoCode;
         private System.Windows.Forms.ComboBox comboBoxBaudRate;
+        private System.Windows.Forms.Button buttonSerialDisconnect;
     }
 }

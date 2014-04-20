@@ -46,7 +46,7 @@ namespace PedalPrixLapTimer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            car1.HasTriggered += car1_Lapped;
+            //car1.HasTriggered += car1_Lapped;
             //car2.HasTriggered += car2_Lapped;
             //car3.HasTriggered += car3_Lapped;
         }
@@ -317,7 +317,7 @@ namespace PedalPrixLapTimer
         {
             try
             {
-                if(car1.setup(this, comboBoxComPort.Text, Convert.ToInt16(comboBoxBaudRate.Text), textBoxEchoCode.Text, textBoxTriggerCode.Text))
+                if(car1.setup(comboBoxComPort.Text, Convert.ToInt16(comboBoxBaudRate.Text), textBoxEchoCode.Text, textBoxTriggerCode.Text))
                 {
                     MessageBox.Show("Succesfully Connected");
                 }
@@ -351,7 +351,26 @@ namespace PedalPrixLapTimer
         private void comboBoxComPort_DropDown(object sender, EventArgs e)
         {
             comboBoxComPort.Items.Clear();
-            comboBoxComPort.Items.AddRange(SerialPort.GetPortNames());
+            try
+            {
+                comboBoxComPort.Items.AddRange(SerialPort.GetPortNames());
+            }
+            catch
+            {
+                MessageBox.Show("Failed to get port names");
+            }
+        }
+
+        private void buttonSerialDisconnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                car1.disconnect();
+            }
+            catch
+            {
+
+            }
         }
 
         /*
