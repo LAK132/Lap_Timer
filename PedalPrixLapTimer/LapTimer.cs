@@ -15,8 +15,6 @@ namespace PedalPrixLapTimer
     public partial class Form1 : Form
     {
         ArduinoSerial car1 = new ArduinoSerial();
-        //ArduinoSerial car2 = new ArduinoSerial();
-        //ArduinoSerial car3 = new ArduinoSerial();
         Stopwatch swRace = new Stopwatch();     // Used to time total race time
         Stopwatch swLap = new Stopwatch();      // Used to time each lap
         TimeSpan lapTime;
@@ -37,17 +35,13 @@ namespace PedalPrixLapTimer
         {
             car1.hasTriggered += new PedalPrixLapTimer.ArduinoSerial.Triggered(car1_Lapped);
             InitializeComponent();
-            _Form1 = this;
             buttonPitOut.Enabled = false;
             button_Reset.Enabled = false;
             button_Pause.Enabled = false;
             buttonLap.Enabled = false;
             buttonPitIn.Enabled = false;
             CenterToScreen();
-            //MessageBox.Show("Program Writen By Lucas Kleiss");
         }
-
-        public static Form1 _Form1;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -400,17 +394,5 @@ namespace PedalPrixLapTimer
                 MessageBox.Show("Failed to get port names");
             }
         }
-
-        /*
-        private void car2_Lapped(object sender, EventArgs e)
-        {
-
-        }
-
-        private void car3_Lapped(object sender, EventArgs e)
-        {
-
-        }
-        */
     }
 }
