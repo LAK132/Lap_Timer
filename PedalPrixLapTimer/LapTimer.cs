@@ -29,26 +29,29 @@ namespace PedalPrixLapTimer
         int RDB = 0;
         int RAI = 0;
         int LVI = 0;
+        delegate void LapCallback();
 
         //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         public Form1()
         {
+            car1.hasTriggered += new PedalPrixLapTimer.ArduinoSerial.Triggered(car1_Lapped);
             InitializeComponent();
+            _Form1 = this;
             buttonPitOut.Enabled = false;
             button_Reset.Enabled = false;
             button_Pause.Enabled = false;
             buttonLap.Enabled = false;
             buttonPitIn.Enabled = false;
             CenterToScreen();
-            MessageBox.Show("Program Writen By Lucas Kleiss");
+            //MessageBox.Show("Program Writen By Lucas Kleiss");
         }
+
+        public static Form1 _Form1;
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //car1.HasTriggered += car1_Lapped;
-            //car2.HasTriggered += car2_Lapped;
-            //car3.HasTriggered += car3_Lapped;
+
         }
 
         private void button_Start_Click(object sender, EventArgs e)
@@ -142,17 +145,39 @@ namespace PedalPrixLapTimer
 
         private void buttonLap_Click(object sender, EventArgs e)
         {
-            TimeSpan ts = swLap.Elapsed;
-            // Format and display the TimeSpan value.
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-            swLap.Reset();
-            swLap.Start(); 
-            riderLaps++;     // increment the number of laps
-            totalLaps++;     // increment the total laps of the race
-            richTextBox1.AppendText(System.Environment.NewLine + totalLaps + " ,\t" + riderLaps + " ,\t" + riderDataBase[LVI] +" ,\t" + elapsedTime);//---------------------------------------------
-            richTextBox1.SelectionStart = richTextBox1.Text.Length;     // Scroll to end of list
-            richTextBox1.ScrollToCaret();
+            //TimeSpan ts = swLap.Elapsed;
+            ////Format and display the TimeSpan value.
+            //string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            //swLap.Reset();
+            //swLap.Start();
+            //riderLaps++;     // increment the number of laps
+            //totalLaps++;     // increment the total laps of the race
+            //richTextBox1.AppendText(System.Environment.NewLine + totalLaps + " ,\t" + riderLaps + " ,\t" + riderDataBase[LVI] + " ,\t" + elapsedTime);//---------------------------------------------
+            //richTextBox1.SelectionStart = richTextBox1.Text.Length;     // Scroll to end of list
+            //richTextBox1.ScrollToCaret();
+            lap();
+        }
 
+        public void lap()
+        {
+            if (this.richTextBox1.InvokeRequired)
+            {
+                LapCallback d = new LapCallback(lap);
+                this.Invoke(d, new object[] { });
+            }
+            else
+            {
+                TimeSpan ts = swLap.Elapsed;
+                // Format and display the TimeSpan value.
+                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+                swLap.Reset();
+                swLap.Start();
+                riderLaps++;     // increment the number of laps
+                totalLaps++;     // increment the total laps of the race
+                richTextBox1.AppendText(System.Environment.NewLine + totalLaps + " ,\t" + riderLaps + " ,\t" + riderDataBase[LVI] + " ,\t" + elapsedTime);
+                richTextBox1.SelectionStart = richTextBox1.Text.Length;     // Scroll to end of list
+                richTextBox1.ScrollToCaret();
+            }
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
@@ -308,12 +333,15 @@ namespace PedalPrixLapTimer
         }
 
         //Arduino code
-        private void car1_Lapped(object sender, EventArgs e)
+        private void car1_Lapped()
         {
-            buttonLap_Click(this, EventArgs.Empty);
+            if (buttonLap.Enabled)
+            {
+                lap();
+            }
         }
 
-        private void serialConnect_Click(object sender, EventArgs e)
+        private void buttonSerialConnect_Click(object sender, EventArgs e)
         {
             try
             {
@@ -348,6 +376,18 @@ namespace PedalPrixLapTimer
             }
         }
 
+        private void buttonSerialDisconnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                car1.disconnect();
+            }
+            catch
+            {
+
+            }
+        }
+
         private void comboBoxComPort_DropDown(object sender, EventArgs e)
         {
             comboBoxComPort.Items.Clear();
@@ -358,18 +398,6 @@ namespace PedalPrixLapTimer
             catch
             {
                 MessageBox.Show("Failed to get port names");
-            }
-        }
-
-        private void buttonSerialDisconnect_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                car1.disconnect();
-            }
-            catch
-            {
-
             }
         }
 
