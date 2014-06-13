@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.Ports;
+using System.Threading.Tasks;
+using System.Timers;
 
 namespace PedalPrixLapTimer
 {
@@ -99,9 +101,14 @@ namespace PedalPrixLapTimer
         private static string echo; //The echo code to use
         private static string trigger; //The trigger code
         private static bool isSetUp = false; //Whether or not the connection has been set up yet
-        public static SerialPort serialPort = new SerialPort(); //The serial port object to use
-        private static int readTimeout = 1000;
+        public  static SerialPort serialPort = new SerialPort(); //The serial port object to use
+        private static int readTimeout = 4000;
         private static int writeTimeout = 4000;
+        public  static string serialRead = null;
+        private static int timerCount = 0;
+        private static string serialLine = null;
+        private static Timer t = new Timer();
+        private static bool timerElapsed = false;
 
         private static ArduinoSerialOpenException errOpen = new ArduinoSerialOpenException("Failed to open and send message over serial port");
         private static ArduinoSerialSetupException errSetup = new ArduinoSerialSetupException("Already set up");
@@ -119,7 +126,8 @@ namespace PedalPrixLapTimer
                 baud = baudIn;
                 echo = echoIn;
                 trigger = triggerIn;
-                //serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                t.Elapsed += new ElapsedEventHandler(timerTick);
 
                 if (serialPort.IsOpen)
                 {
@@ -162,9 +170,9 @@ namespace PedalPrixLapTimer
                     throw errSend;
                 }
 
-                try
-                {
-                    if (serialPort.ReadLine() == "echo")
+                //try
+                //{
+                    if (serialReadLine() == "echo")
                     {
                         isSetUp = true;
                         return true;
@@ -174,11 +182,11 @@ namespace PedalPrixLapTimer
                         isSetUp = false;
                         throw errEcho;
                     }
-                }
-                catch
-                {
-                    throw errRead;
-                }
+                //}
+                //catch
+                //{
+                //    throw errRead;
+                //}
             }
             else
             {
@@ -187,31 +195,153 @@ namespace PedalPrixLapTimer
         }
 
         //Triggered event
-        //public event EventHandler HasTriggered;
+        public delegate void Triggered();
 
-        /*private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        public event Triggered hasTriggered;
+
+        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
             try
             {
-                //if(serialPort.ReadLine() == trigger)
-                //{
-                    //Triggered(EventArgs.Empty);
-                //}
+                string read = null;
+                try
+                {
+                    read = serialPort.ReadLine();
+                }
+                catch
+                {
+                    read = null;
+                }
+                if(read == trigger)
+                {
+                    trig();
+                }
+                else if(read == "\n" || read == "\r" || read == "\n\r" || read == null)
+                {
+
+                }
+                else
+                {
+                    serialReadLine(read);
+                }
             }
             catch
             {
+                isSetUp = false;
+                serialPort.Close();
                 throw errRead;
             }
-        }*/
+        }
 
-        /*protected virtual void Triggered(EventArgs e)
+        protected virtual void trig()
         {
-            EventHandler handler = HasTriggered;
-            if (handler != null)
+            if (hasTriggered != null)
             {
-                handler(this, e);
+                hasTriggered();
             }
-        }*/
+        }
+
+        public static string serialReadLine()
+        {
+            string tempLine = "";
+            if (serialRead != null)
+            {
+                tempLine = serialRead;
+                serialRead = null;
+                serialLine = null;
+                return tempLine;
+            }
+            else
+            {
+                try
+                {
+                    t.Interval = readTimeout;
+                    t.Start();
+                    while(serialRead == null)
+                    {
+                        if (timerElapsed)
+                        {
+                            t.Stop();
+                            timerElapsed = false;
+                            throw errRead;
+                        }
+                    }
+                    t.Stop();
+                    timerElapsed = false;
+                    if (serialRead != null)
+                    {
+                        tempLine = serialRead;
+                        serialRead = null;
+                        serialLine = null;
+                        return tempLine;
+                    }
+                    else
+                    {
+                        throw errRead;
+                    }
+                }
+                catch
+                {
+                    try
+                    {
+                        Task r = readLine();
+                        r.Start();
+                        r.Wait();
+                        tempLine = serialLine;
+                    }
+                    catch
+                    {
+                        serialLine = "";
+                        throw errRead;
+                    }
+                    serialRead = null;
+                    serialLine = null;
+                    return tempLine;
+                }
+            }
+        }
+
+        public static void serialReadLine(string set)
+        {
+            serialRead = set;
+        }
+
+        //Async tasks for reading serialPort
+        static async Task readLine()
+        {
+            Task<string> m = readTheLine();
+            serialLine = await m;
+            return;
+        }
+
+        static async Task<string> readTheLine()
+        {
+            t.Interval = readTimeout;
+            t.Start();
+            while (serialRead == null)
+            {
+                if (timerElapsed)
+                {
+                    t.Stop();
+                    timerElapsed = false;
+                    throw errRead;
+                }
+            }
+            if (serialRead != null)
+            {
+                t.Stop();
+                return serialRead;
+            }
+            else
+            {
+                throw errRead;
+            }
+        }
+
+        private static void timerTick(object source, ElapsedEventArgs e)
+        {
+            timerElapsed = true;
+        }
 
         //Send a message to the arduino
         public static bool sendMsg(string message)
@@ -249,7 +379,7 @@ namespace PedalPrixLapTimer
                 }
                 try
                 {
-                    return serialPort.ReadLine();
+                    return serialReadLine();
                 }
                 catch
                 {
@@ -305,11 +435,8 @@ namespace PedalPrixLapTimer
         {
             try 
             {
-                if (serialPort.IsOpen)
-                {
-                    serialPort.Close();
-                    isSetUp = false;
-                }
+                serialPort.Close();
+                isSetUp = false;
             }
             catch
             {
