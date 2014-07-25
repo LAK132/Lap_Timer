@@ -24,42 +24,67 @@ namespace PedalPrixLapTimer
         public int riderLaps = 0;
         public bool inPits = false;
         string[] riderDataBase = new string[10] { "", "", "", "", "", "", "", "", "", "" };
-        int RDB = 0;
-        int RAI = 0;
-        int LVI = 0;
+        bool saved = false;
+        string saveFileName = "";
+        int RDB = 0; //Rider Database
+        int RAI = 0; //Rider add index
+        int LVI = 0; //Latest rider index
         delegate void LapCallback();
 
         //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+        /*
+         * 
+         * Need to fix:
+         * Pit in/out buttons
+         * 
+         */
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        
         public Form1()
         {
             car1.hasTriggered += new PedalPrixLapTimer.ArduinoSerial.Triggered(car1_Lapped);
             InitializeComponent();
+            buttonPitIn.Enabled = true;
+            buttonSave.Enabled = true;
             buttonPitOut.Enabled = false;
             button_Reset.Enabled = false;
             button_Pause.Enabled = false;
             buttonLap.Enabled = false;
-            buttonPitIn.Enabled = false;
             CenterToScreen();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void button_Start_Click(object sender, EventArgs e)
         {
-            textBoxCurrentRider.Text = riderDataBase[LVI];
-            swLap.Start();
-            swRace.Start();
-            button_Reset.Enabled = false;
-            button_Start.Enabled = false;
-            buttonPitOut.Enabled = false;
-            button_Reset.Enabled = false;
-            button_Pause.Enabled = true;
-            buttonLap.Enabled = true;
-            buttonPitIn.Enabled = true;
+            if (saved)
+            {
+                textBoxCurrentRider.Text = riderDataBase[LVI];
+                swLap.Start();
+                swRace.Start();
+                button_Reset.Enabled = false;
+                button_Start.Enabled = false;
+                button_Reset.Enabled = false;
+                button_Pause.Enabled = true;
+                buttonLap.Enabled = true;
+                if (buttonPitIn.Enabled)
+                {
+                    buttonPitOut.Enabled = false;
+                    buttonPitIn.Enabled = true;
+                }
+                else if (buttonPitOut.Enabled)
+                {
+                    buttonPitOut.Enabled = true;
+                    buttonPitIn.Enabled = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please Save");
+            }
         }
 
         // Happens every 100 milliseconds when timer1 ticks
@@ -85,7 +110,6 @@ namespace PedalPrixLapTimer
                 }
                 textBoxRiderLaps.Text = riderLaps.ToString();
                 textBoxTotalLaps.Text = totalLaps.ToString();
-               
             }
 
             // Update race time
@@ -162,6 +186,10 @@ namespace PedalPrixLapTimer
                 richTextBox1.SelectionStart = richTextBox1.Text.Length;     // Scroll to end of list
                 richTextBox1.ScrollToCaret();
             }
+            if (saved)
+            {
+                richTextBox1.SaveFile(saveFileName, RichTextBoxStreamType.PlainText);
+            }
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
@@ -186,6 +214,8 @@ namespace PedalPrixLapTimer
               saveFile1.FileName.Length > 0) 
            {
               // Save the contents of the RichTextBox into the file.
+              saveFileName = saveFile1.FileName;
+              saved = true;
               richTextBox1.SaveFile(saveFile1.FileName, RichTextBoxStreamType.PlainText);
            }
 

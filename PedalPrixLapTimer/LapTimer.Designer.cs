@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabPageTimer = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
@@ -615,8 +616,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1374, 620);
             this.Controls.Add(this.tabSerial);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Pedal Prix Lap Timer";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabPageTimer.ResumeLayout(false);
             this.tabPageTimer.PerformLayout();
